@@ -11,6 +11,9 @@ pipeline {
 
     post{
         always {
+
+            def committerEmail = sh(script: 'git log -1 --pretty=format:%ae', returnStdout: true).trim()
+
             emailext (
                 subject: "Pipeline Name: ${JOB_NAME}",
                 body: '''<html>
@@ -20,7 +23,7 @@ pipeline {
                                 <p>Check the <i><a href="${BUILD_URL}"> console output</a></i>.</p>
                             </body>
                         </html>''',
-                to: 'jadonharsh109@gmail.com',
+                to: committerEmail,
                 from: 'no-reply@jenkins.com',
                 replyTo: 'no-reply@jenkins.com',
                 mimeType: 'text/html'

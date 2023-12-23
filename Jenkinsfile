@@ -1,7 +1,22 @@
 pipeline {
     agent any
+
+    
     
     stages{
+
+        stage('Retrieve committer email') {
+            steps {
+                script {
+                    def committerEmail = sh(
+                        returnStdout: true,
+                        script: "git log -1 --pretty=format:%ae"
+                    ).trim()
+                    echo "Committer email: ${committerEmail}"
+                }
+    }
+}
+
         stage ("Hello World") {
             steps{
                 echo "Hello World From Jenkins"

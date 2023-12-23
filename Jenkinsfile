@@ -28,9 +28,6 @@ pipeline {
 
     post{
         always {
-
-            def committerEmail = sh(script: 'git log -1 --pretty=format:%ae', returnStdout: true).trim()
-
             emailext (
                 subject: "Pipeline Name: ${JOB_NAME}",
                 body: '''<html>

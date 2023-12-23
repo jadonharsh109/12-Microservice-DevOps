@@ -37,7 +37,7 @@ pipeline {
                                 <p>Check the <i><a href="${BUILD_URL}"> console output</a></i>.</p>
                             </body>
                         </html>''',
-                to: '${committerEmail}',
+                to: committerEmail,
                 from: 'no-reply@jenkins.com',
                 replyTo: 'no-reply@jenkins.com',
                 mimeType: 'text/html'

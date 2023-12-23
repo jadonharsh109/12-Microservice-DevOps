@@ -17,7 +17,7 @@ pipeline {
                             <body>
                                 <p>Build Status: <b>${BUILD_STATUS}</b></p>
                                 <p>Build Status: <b>${BUILD_NUMBER}</b></p>
-                                <p>Check the <i><a href="${BUILD_URL}" console output</a></i>.</p>
+                                <p>Check the <a href="${BUILD_URL}"console output</a>.</p>
                             </body>
                         </html>''',
                 to: 'jadonharsh109@gmail.com',

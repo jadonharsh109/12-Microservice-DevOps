@@ -8,14 +8,16 @@ pipeline {
         stage('Retrieve committer email') {
             steps {
                 script {
-                    def committerEmail = sh(
-                        returnStdout: true,
-                        script: "git log -1 --pretty=format:%ae"
+                    // Execute the Git command as a step
+                    committerEmail = sh(
+                        script: "git log -1 --pretty=format:%ae",
+                        returnStdout: true
                     ).trim()
+                    // Print the retrieved email
                     echo "Committer email: ${committerEmail}"
                 }
-    }
-}
+            }
+        }
 
         stage ("Hello World") {
             steps{
@@ -38,7 +40,7 @@ pipeline {
                                 <p>Check the <i><a href="${BUILD_URL}"> console output</a></i>.</p>
                             </body>
                         </html>''',
-                to: committerEmail,
+                to: '${committerEmail}',
                 from: 'no-reply@jenkins.com',
                 replyTo: 'no-reply@jenkins.com',
                 mimeType: 'text/html'

@@ -1,8 +1,8 @@
 pipeline {
-    agent any
+    agent {
+        label "My-Linux"
+    }
 
-    
-    
     stages{
 
         stage('Retrieve committer email') {
@@ -19,11 +19,11 @@ pipeline {
             }
         }
 
-        stage ("Hello World") {
-            steps{
-                echo "Hello World From Jenkins"
-            }
-        }
+        // Build Dockerfiles for all microservices
+
+        // Deploy all Docker Images to an private reg.
+
+        // 
     }
 
     post{

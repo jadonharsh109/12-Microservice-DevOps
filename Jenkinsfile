@@ -10,7 +10,7 @@ pipeline {
                 sh "sudo snap install trivy"
             }
             steps {
-                USER = sh (script: 'whoami')
+                sh "USER=$(whoami)"
                 sh "sudo addgroup --system docker"
                 sh "sudo adduser $USER docker"
                 sh "newgrp docker"

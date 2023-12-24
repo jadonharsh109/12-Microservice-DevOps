@@ -10,12 +10,13 @@ pipeline {
                 sh "sudo snap install trivy"
             }
             steps {
-                sh "USER=$(whoami)"
-                sh "sudo addgroup --system docker"
-                sh "sudo adduser $USER docker"
-                sh "newgrp docker"
-                sh "sudo snap disable docker"
-                sh "sudo snap enable docker"
+                sh """USER=$(whoami)
+                        sudo addgroup --system docker
+                        sudo adduser $USER docker
+                        newgrp docker
+                        sudo snap disable docker
+                        sudo snap enable docker
+                """
             }
         }
 

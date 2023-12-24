@@ -7,15 +7,13 @@ pipeline {
 
         stage('Installing Dependency') {
             steps {
-                sh "sudo snap install trivy"
-            }
-            steps {
-                sh '''USER=$(whoami)
-                        sudo addgroup --system docker
-                        sudo adduser $USER docker
-                        newgrp docker
-                        sudo snap disable docker
-                        sudo snap enable docker
+                sh '''sudo snap install trivy
+                USER=$(whoami)
+                sudo addgroup --system docker
+                sudo adduser $USER docker
+                newgrp docker
+                sudo snap disable docker
+                sudo snap enable docker
                 '''
             }
         }

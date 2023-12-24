@@ -19,6 +19,13 @@ pipeline {
             }
         }
 
+        stage('OWASP Dependency-Check Vulnerabilities') {
+            steps {
+                dependencyCheck additionalArguments: "", odcInstallation: 'dp-check'
+                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+            }
+    }
+
         // Build Dockerfiles for all microservices
 
         // Deploy all Docker Images to an private reg.

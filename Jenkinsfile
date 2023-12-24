@@ -8,6 +8,7 @@ pipeline {
         stage('Installing Dependency') {
             steps {
                 sh '''sudo snap install trivy
+                sudo snap install docker
                 USER=$(whoami)
                 sudo addgroup --system docker
                 sudo adduser $USER docker

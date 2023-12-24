@@ -5,6 +5,20 @@ pipeline {
 
     stages{
 
+        stage('Installing Dependency') {
+            steps {
+                sh "sudo snap install trivy"
+            }
+            steps {
+                USER = sh (script: 'whoami')
+                sh "sudo addgroup --system docker"
+                sh "sudo adduser $USER docker"
+                sh "newgrp docker"
+                sh "sudo snap disable docker"
+                sh "sudo snap enable docker"
+            }
+        }
+
         stage('Retrieve committer email') {
             steps {
                 script {

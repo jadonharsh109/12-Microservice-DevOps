@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label "My-Linux"
+    }
 
     environment {
         K8S_CLUSTER_NAME = "microservice-cluster"

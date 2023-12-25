@@ -92,7 +92,7 @@ pipeline {
         // Build Dockerfiles for all microservices
 
         // Deploy all Docker Images to an private reg.
-        
+
 
 
         stage("AWS Configure"){
@@ -114,15 +114,11 @@ pipeline {
                 sh "helm upgrade --install --force microservice-charts helm-charts"
             }
         }
-        
-
-
     }
 
 
     post{
         always {
-
             emailext (
                 subject: "Pipeline Name: ${JOB_NAME}",
                 body: '''<html>

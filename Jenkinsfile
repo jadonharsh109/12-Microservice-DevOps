@@ -25,6 +25,7 @@ pipeline {
                 sudo mv /tmp/eksctl /usr/local/bin --force
                 sudo snap install kubectl --classic
                 '''
+            }
         }
 
         stage("Version Check") {

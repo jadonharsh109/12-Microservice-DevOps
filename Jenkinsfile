@@ -64,7 +64,7 @@ pipeline {
                 script{
                     repositoryUrl = sh(returnStdout: true, script: 'git config remote.origin.url').trim() 
                 }
-                sh "trivy repo $repositoryUrl -f json -o trivy-result.json"
+                sh "sudo trivy repo $repositoryUrl -f json -o trivy-result.json"
             }
         }
 
@@ -85,20 +85,20 @@ pipeline {
         stage("AWS Configure"){
                     steps{
                         withCredentials([aws(credentialsId: 'aws-cred', accessKeyVariable: 'AWS_ACCESS_KEY', secretKeyVariable: 'AWS_SECRET_KEY')]){
-                            sh 'aws configure set aws_access_key_id "${AWS_ACCESS_KEY}" && aws configure set aws_secret_access_key "${AWS_SECRET_KEY}" && aws configure set region "ap-south-1" && aws configure set output "json"'
+                            sh 'sudo aws configure set aws_access_key_id "${AWS_ACCESS_KEY}" && aws configure set aws_secret_access_key "${AWS_SECRET_KEY}" && aws configure set region "ap-south-1" && aws configure set output "json"'
                         } 
                     }
                 }
 
         stage('Updating Kubeconfig Files') {
             steps {
-                sh "aws eks update-kubeconfig --name ${K8S_CLUSTER_NAME}"
+                sh "sudo aws eks update-kubeconfig --name ${K8S_CLUSTER_NAME}"
             }
         }      
         
         stage('Deploying Helms Charts') {
             steps {
-                sh "helm upgrade --install --force microservice-charts helm-charts"
+                sh "sudo helm upgrade --install --force microservice-charts helm-charts"
             }
         }
     }

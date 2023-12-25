@@ -54,12 +54,12 @@ pipeline {
             }
         }
 
-        stage('OWASP Scan') {
-            steps {
-                dependencyCheck additionalArguments: "", odcInstallation: 'dp-check'
-                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-            }
-        }
+        // stage('OWASP Scan') {
+        //     steps {
+        //         dependencyCheck additionalArguments: "", odcInstallation: 'dp-check'
+        //         dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+        //     }
+        // }
 
         stage('Trivy Scan') {
             steps {

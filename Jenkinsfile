@@ -9,7 +9,7 @@ pipeline {
 
         stage('Installing Dependency') {
             steps {
-                sh '''sudo apt install awscli -y
+                sh '''sudo snap install aws-cli --classic
                 sudo snap install trivy
                 sudo snap install docker
                 USER=$(whoami)

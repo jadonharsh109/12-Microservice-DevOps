@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label "My-Linux"
-    }
+    agent any
 
     environment {
         K8S_CLUSTER_NAME = "microservice-cluster"
@@ -23,6 +21,7 @@ pipeline {
                 sudo snap install helm --classic
                 curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
                 sudo mv /tmp/eksctl /usr/local/bin --force
+                sudo rm -rf /tmp/*
                 sudo snap install kubectl --classic
                 '''
             }
@@ -31,23 +30,12 @@ pipeline {
         stage("Version Check") {
             steps {
                 sh '''
-                echo "##################### Docker Version "#####################"
-                docker version
-
-                echo "##################### Trivy Version "#####################"
-                trivy -v
-
-                echo "##################### AWSCLI Version "#####################"
-                aws --version
-
-                echo "##################### EKSCTL Version "#####################"
-                eksctl version
-
-                echo "##################### KUBECTL Version "#####################"
-                kubectl version --short
-
-                echo "##################### HELM Version "#####################"
-                helm version
+                echo "##################### Docker Version "#####################" && docker version
+                echo "##################### Trivy Version "#####################" && trivy -v
+                echo "##################### AWSCLI Version "#####################"&& aws --version
+                echo "##################### EKSCTL Version "#####################" && eksctl version
+                echo "##################### KUBECTL Version "#####################" && kubectl version --short
+                echo "##################### HELM Version "#####################" && helm version
                 '''
             }
         }
@@ -55,12 +43,10 @@ pipeline {
         stage('Retrieve Committer Email') {
             steps {
                 script {
-                    // Execute the Git command as a step
                     committerEmail = sh(
                         script: "git log -1 --pretty=format:%ae",
                         returnStdout: true
                     ).trim()
-                    // Print the retrieved email
                     echo "Committer email: ${committerEmail}"
                 }
             }

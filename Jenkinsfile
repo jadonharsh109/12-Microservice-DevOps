@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label "My-Linux"
-    }
+    agent any
 
     environment {
         K8S_CLUSTER_NAME = "microservice-cluster"
@@ -29,18 +27,18 @@ pipeline {
             }
         }
 
-        stage("Version Check") {
-            steps {
-                sh '''
-                echo "##################### Docker Version "#####################" && docker version
-                echo "##################### Trivy Version "#####################" && trivy -v
-                echo "##################### AWSCLI Version "#####################"&& aws --version
-                echo "##################### EKSCTL Version "#####################" && eksctl version
-                echo "##################### KUBECTL Version "#####################" && kubectl version --short
-                echo "##################### HELM Version "#####################" && helm version
-                '''
-            }
-        }
+        // stage("Version Check") {
+        //     steps {
+        //         sh '''
+        //         echo "##################### Docker Version "#####################" && docker version
+        //         echo "##################### Trivy Version "#####################" && trivy -v
+        //         echo "##################### AWSCLI Version "#####################"&& aws --version
+        //         echo "##################### EKSCTL Version "#####################" && eksctl version
+        //         echo "##################### KUBECTL Version "#####################" && kubectl version --short
+        //         echo "##################### HELM Version "#####################" && helm version
+        //         '''
+        //     }
+        // }
 
         stage('Retrieve Committer Email') {
             steps {
@@ -70,13 +68,13 @@ pipeline {
             }
         }
 
-        stage("Docker Login"){
-            steps{
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]){
-                    sh "echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin"
-                } 
-            }
-        }
+        // stage("Docker Login"){
+        //     steps{
+        //         withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]){
+        //             sh "echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin"
+        //         } 
+        //     }
+        // }
 
         // Build Dockerfiles for all microservices
 

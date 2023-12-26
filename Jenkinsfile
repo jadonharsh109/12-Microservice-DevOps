@@ -9,34 +9,7 @@ pipeline {
 
         stage('Installing Dependency') {
             steps {
-                sh '''sudo snap install aws-cli --classic
-                sudo snap install trivy
-                sudo snap install docker
-                USER=$(whoami)
-                sudo addgroup --system docker
-                sudo adduser $USER docker
-                newgrp docker
-                sudo snap disable docker
-                sudo snap enable docker
-                sudo snap install helm --classic
-                curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
-                sudo mv /tmp/eksctl /usr/local/bin --force
-                sudo rm -rf /tmp/*
-                sudo snap install kubectl --classic
-                '''
-            }
-        }
-
-        stage("Version Check") {
-            steps {
-                sh '''
-                echo "##################### Docker Version "#####################" && docker version
-                echo "##################### Trivy Version "#####################" && trivy -v
-                echo "##################### AWSCLI Version "#####################"&& aws --version
-                echo "##################### EKSCTL Version "#####################" && eksctl version
-                echo "##################### KUBECTL Version "#####################" && kubectl version --short
-                echo "##################### HELM Version "#####################" && helm version
-                '''
+                sh "chmod +7 requirements.sh && ./requirements.sh"
             }
         }
 

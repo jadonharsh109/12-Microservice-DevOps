@@ -27,18 +27,18 @@ pipeline {
             }
         }
 
-        // stage("Version Check") {
-        //     steps {
-        //         sh '''
-        //         echo "##################### Docker Version "#####################" && docker version
-        //         echo "##################### Trivy Version "#####################" && trivy -v
-        //         echo "##################### AWSCLI Version "#####################"&& aws --version
-        //         echo "##################### EKSCTL Version "#####################" && eksctl version
-        //         echo "##################### KUBECTL Version "#####################" && kubectl version --short
-        //         echo "##################### HELM Version "#####################" && helm version
-        //         '''
-        //     }
-        // }
+        stage("Version Check") {
+            steps {
+                sh '''
+                echo "##################### Docker Version "#####################" && docker version
+                echo "##################### Trivy Version "#####################" && trivy -v
+                echo "##################### AWSCLI Version "#####################"&& aws --version
+                echo "##################### EKSCTL Version "#####################" && eksctl version
+                echo "##################### KUBECTL Version "#####################" && kubectl version --short
+                echo "##################### HELM Version "#####################" && helm version
+                '''
+            }
+        }
 
         stage('Retrieve Committer Email') {
             steps {
@@ -52,12 +52,12 @@ pipeline {
             }
         }
 
-        // stage('OWASP Scan') {
-        //     steps {
-        //         dependencyCheck additionalArguments: "", odcInstallation: 'dp-check'
-        //         dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-        //     }
-        // }
+        stage('OWASP Scan') {
+            steps {
+                dependencyCheck additionalArguments: "", odcInstallation: 'dp-check'
+                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+            }
+        }
 
         stage('Trivy Scan') {
             steps {
@@ -68,13 +68,13 @@ pipeline {
             }
         }
 
-        // stage("Docker Login"){
-        //     steps{
-        //         withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]){
-        //             sh "echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin"
-        //         } 
-        //     }
-        // }
+        stage("Docker Login"){
+            steps{
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]){
+                    sh "echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin"
+                } 
+            }
+        }
 
         // Build Dockerfiles for all microservices
 
@@ -90,17 +90,17 @@ pipeline {
                     }
                 }
 
-        stage('Updating Kubeconfig Files') {
-            steps {
-                sh "sudo aws eks update-kubeconfig --name ${K8S_CLUSTER_NAME}"
-            }
-        }      
+        // stage('Updating Kubeconfig Files') {
+        //     steps {
+        //         sh "sudo aws eks update-kubeconfig --name ${K8S_CLUSTER_NAME}"
+        //     }
+        // }      
         
-        stage('Deploying Helms Charts') {
-            steps {
-                sh "sudo helm upgrade --install --force microservice-charts helm-charts"
-            }
-        }
+        // stage('Deploying Helms Charts') {
+        //     steps {
+        //         sh "sudo helm upgrade --install --force microservice-charts helm-charts"
+        //     }
+        // }
     }
 
 
